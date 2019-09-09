@@ -31,14 +31,10 @@ Plug 'rstacruz/vim-closer'
 Plug 'easymotion/vim-easymotion'
 
 " Intellisense Engine
-" Plug 'neoclide/coc.nvim', { 'do': 'yarn install' }
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 " Tmux/Neovim movement integration
 Plug 'christoomey/vim-tmux-navigator'
-
-" Denite - Fuzzy finding, buffer management
-Plug 'Shougo/denite.nvim'
 
 " Snippet support
 Plug 'Shougo/neosnippet'
@@ -50,7 +46,7 @@ Plug 'Shougo/echodoc.vim'
 " === Git Plugins === "
 " Enable git changes to be shown in sign column
 Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 
 " Typescript syntax highlighting
 Plug 'HerringtonDarkholme/yats.vim'
@@ -87,9 +83,6 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " vim-indent-guides
 Plug 'Yggdroot/indentLine'
 
-" MRU
-Plug 'yegappan/mru'
-
 " vim-commentary
 Plug 'tpope/vim-commentary'
 
@@ -105,9 +98,6 @@ Plug 'michaeljsmith/vim-indent-object'
 " vim-expand-region'
 Plug 'terryma/vim-expand-region'
 
-" new-moon theme'
-Plug 'taniarascia/new-moon.vim'
-
 " graphql
 Plug 'jparise/vim-graphql'
 
@@ -115,18 +105,20 @@ Plug 'jparise/vim-graphql'
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline'
 
-" vim-buffer
-Plug 'bagrat/vim-buffet'
-
 " vim-signature
 Plug 'kshenoy/vim-signature'
 
 " vim-startify
 Plug 'mhinz/vim-startify'
 
-Plug 'jeetsukumaran/vim-buffergator'
-
 Plug 'gcmt/taboo.vim'
+
+Plug 'slim-template/vim-slim'
+
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
+Plug 'tpope/vim-endwise'
+
 
 " Initialize plugin system
 call plug#end()

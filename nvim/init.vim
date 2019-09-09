@@ -32,7 +32,8 @@ if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 set list                " Show problematic characters.
-  " Also highlight all tabs and trailing whitespace characters.
+
+" Also highlight all tabs and trailing whitespace characters.
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$\|\t/
 
@@ -84,87 +85,6 @@ set encoding=UTF-8
 " ===                           PLUGIN SETUP                               === "
 " ============================================================================ "
 
-" === Buffergator setup ==="
-map <leader>; :BuffergatorOpen<CR>
-map gb :BuffergatorMruCyclePrev<CR>
-let g:buffergator_viewport_split_policy = 'B'
-let g:buffergator_suppress_keymaps = 1
-
-
-
-
-" === Denite setup ==="
-" Wrap in try/catch to avoid errors on initial install before plugin is available
-try
-    " Use ripgrep for searching current directory for files
-    " By default, ripgrep will respect rules in .gitignore
-    "   --files: Print each file that would be searched (but don't search)
-    "   --glob:  Include or exclues files for searching that match the given glob
-    "            (aka ignore .git files)
-    "
-    call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
-
-    " Use ripgrep in place of "grep"
-    call denite#custom#var('grep', 'command', ['rg'])
-
-    " Custom options for ripgrep
-    "   --vimgrep:  Show results with every match on it's own line
-    "   --hidden:   Search hidden directories and files
-    "   --heading:  Show the file name above clusters of matches from each file
-    "   --S:        Search case insensitively if the pattern is all lowercase
-    call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
-
-    " Recommended defaults for ripgrep via Denite docs
-    call denite#custom#var('grep', 'recursive_opts', [])
-    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-    call denite#custom#var('grep', 'separator', ['--'])
-    call denite#custom#var('grep', 'final_opts', [])
-
-    " Remove date from buffer list
-    call denite#custom#var('buffer', 'date_format', '')
-
-    " Custom options for Denite
-    "   auto_resize             - Auto resize the Denite window height automatically.
-    "   prompt                  - Customize denite prompt
-    "   direction               - Specify Denite window direction as directly below current pane
-    "   winminheight            - Specify min height for Denite window
-    "   highlight_mode_insert   - Specify h1-CursorLine in insert mode
-    "   prompt_highlight        - Specify color of prompt
-    "   highlight_matched_char  - Matched characters highlight
-    "   highlight_matched_range - matched range highlight
-    let s:denite_options = {'default' : {
-    \ 'auto_resize': 1,
-    \ 'prompt': 'λ:',
-    \ 'direction': 'rightbelow',
-    \ 'winminheight': '15',
-    \ 'highlight_mode_insert': 'Visual',
-    \ 'highlight_mode_normal': 'Visual',
-    \ 'prompt_highlight': 'Function',
-    \ 'highlight_matched_char': 'Function',
-    \ 'highlight_matched_range': 'Normal'
-    \ }}
-
-    " Loop through denite options and enable them
-    function! s:profile(opts) abort
-      for l:fname in keys(a:opts)
-        for l:dopt in keys(a:opts[l:fname])
-          call denite#custom#option(l:fname, l:dopt, a:opts[l:fname][l:dopt])
-        endfor
-      endfor
-    endfunction
-
-    call s:profile(s:denite_options)
-
-    call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-    call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-    call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-    call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-
-catch
-  echo 'Denite not installed. It should work after running :PlugInstall'
-
-endtry
-
 
 
 " === Coc.nvim === "
@@ -183,8 +103,6 @@ inoremap <silent><expr> <TAB>
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -192,6 +110,7 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 
 
@@ -202,13 +121,11 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
-
 " Load custom snippets from snippets folder
 let g:neosnippet#snippets_directory='~/.config/nvim/snippets'
 
 " Hide conceal markers
 let g:neosnippet#enable_conceal_markers = 0
-
 
 
 
@@ -219,10 +136,6 @@ let g:NERDTreeShowHidden = 1
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
 
-" Custom icons for expandable/expanded directories
-let g:NERDTreeDirArrowExpandable = '⬏'
-let g:NERDTreeDirArrowCollapsible = '⬎'
-
 " Hide certain files and directories from NERDTree
 let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$']
 
@@ -230,8 +143,8 @@ let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir
 let g:NERDTreeStatusline = ''
 
 
-" === Vim airline ==== "
 
+" === Vim airline ==== "
 " Wrap in try/catch to avoid errors on initial install before plugin is available
 try
 
@@ -288,10 +201,8 @@ try
     let g:airline_symbols.readonly = ''
     let g:airline_symbols.linenr = ''
 
-
-
     " Don't show git changes to current file in airline
-    let g:airline#extensions#hunks#enabled=0
+    " let g:airline#extensions#hunks#enabled=0
 
 catch
   echo 'Airline not installed. It should work after running :PlugInstall'
@@ -304,19 +215,32 @@ endtry
 " Enable echodoc on startup
 let g:echodoc#enable_at_startup = 1
 
+
+
+
 " === vim-javascript === "
 " Enable syntax highlighting for JSDoc
 let g:javascript_plugin_jsdoc = 1
+
+
+
 
 " === vim-jsx === "
 " Highlight jsx syntax even in non .jsx files
 let g:jsx_ext_required = 0
 
+
+
+
 " === javascript-libraries-syntax === "
 let g:used_javascript_libs = 'underscore,requirejs,chai,jquery'
 
+
+
+
 " === Signify === "
 let g:signify_sign_delete = '-'
+
 
 
 
@@ -335,6 +259,17 @@ try
 catch
   colorscheme slate
 endtry
+
+" Vim
+let g:indentLine_color_term = 239
+
+" GVim
+let g:indentLine_color_gui = '#4b4d54'
+
+" none X terminal
+let g:indentLine_color_tty_light = 7 " (default: 4)
+let g:indentLine_color_dark = 1 " (default: 2)
+
 
 " Vim airline theme
 let g:airline_theme='papercolor'
@@ -367,14 +302,6 @@ set noshowmode
 hi! link CocErrorSign WarningMsg
 hi! link CocWarningSign Number
 hi! link CocInfoSign Type
-
-" Make background transparent for many things
-"hi! Normal ctermbg=NONE guibg=NONE
-"hi! NonText ctermbg=NONE guibg=NONE
-"hi! LineNr ctermfg=NONE guibg=NONE
-"hi! SignColumn ctermfg=NONE guibg=NONE
-"hi! StatusLine guifg=#16252b guibg=#6699CC
-"hi! StatusLineNC guifg=#16252b guibg=#16252b
 
 " Try to hide vertical spit and end of buffer symbol
 hi! VertSplit gui=NONE guifg=#17252c guibg=#17252c
@@ -417,26 +344,8 @@ map tc :WintabsClose<cr>
 map tu :WintabsUndo<cr>
 map tm :WintabsMove
 
-
-
-" === Denite shorcuts === "
-"   ;         - Browser currently open buffers
-"   <leader>t - Browse list of files in current directory
-"   <leader>g - Search current directory for occurences of given term and
-"   close window if no results
-"   <leader>j - Search current directory for occurences of word under cursor
-" nmap <leader>; :Denite buffer -split=floating -winrow=1<CR>
-nmap <leader>t :Denite file/rec -split=floating -winrow=1<CR>
-nnoremap <leader>g :<C-u>Denite grep:. -no-empty -mode=normal<CR>
-nnoremap <leader>j :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
-
-
 " === Nerdtree shorcuts === "
-"  <leader>n - Toggle NERDTree on/off
-"  <leader>f - Opens current file location in NERDTree
 nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>f :NERDTreeFind<CR>
-
 
 " === coc.nvim === "
 nmap <silent> <leader>dd <Plug>(coc-definition)
@@ -445,23 +354,10 @@ nmap <silent> <leader>dj <Plug>(coc-implementation)
 nmap <silent> <leader>gy <Plug>(coc-type-definition)
 nmap <leader>rn <Plug>(coc-rename)
 
-
-" Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
-
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
-
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
-
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-" map <leader>tm :tabmove-
-map <leader>t<leader> :tabNext
-
 
 let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
@@ -470,34 +366,22 @@ au TabLeave * let g:lasttab = tabpagenr()
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
 
-
 " === vim-better-whitespace === "
 "   <leader>y - Automatically remove trailing whitespace
 nmap <leader>y :StripWhitespace<CR>
 
 " === Search shorcuts === "
-"   <leader>h - Find and replace
-"   <leader>/ - Claer highlighted search terms while preserving history
+"Find and replace
 map <leader>h :%s///<left><left>
 nmap <silent> <leader><cr> :nohlsearch<CR>
 "
 " === Easy-motion shortcuts ==="
-"   <leader>w - Easy-motion highlights first word letters bi-directionally
+"Easy-motion highlights first word letters bi-directionally
 map <leader>w <Plug>(easymotion-bd-w)
-
-
 
 " === vim-jsdoc shortcuts ==="
 " Generate jsdoc for function under cursor
 nmap <leader>z :JsDoc<CR>
-
-" Delete current visual selection and dump in black hole buffer before pasting
-" Used when you want to paste over something without it getting copied to
-" Vim's default buffer
-" vnoremap <leader>p "_dP
-
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
 
 " Fast saving
 nmap <leader>s :w!<cr>
@@ -506,23 +390,10 @@ nmap <leader>s :w!<cr>
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
+" Leaderf
+map <leader>m :LeaderfMru<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
-let MRU_Max_Entries = 400
-map <leader>m :MRU<CR>
-
-" Vim
-let g:indentLine_color_term = 239
-
-" GVim
-let g:indentLine_color_gui = '#4b4d54'
-
-" none X terminal
-let g:indentLine_color_tty_light = 7 " (default: 4)
-let g:indentLine_color_dark = 1 " (default: 2)
-
-" Background (Vim, GVim)
-"let g:indentLine_bgcolor_term = 239
-"let g:indentLine_bgcolor_gui = '#333438'
 
 nmap <silent> <leader>i :IndentLinesToggle<CR>
 
@@ -543,10 +414,6 @@ endfunc
 " Toggle between normal and relative numbering.
 nnoremap <leader>r :call NumberToggle()<cr>
 
-" Automaticaly close nvim if NERDTree is only thing left open
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
 " === Search === "
 " ignore case when searching
 set ignorecase
@@ -560,13 +427,6 @@ set autoread
 " Enable line numbers
 set number
 
-" Set backups
-"if has('persistent_undo')
-  "set undofile
-  "set undolevels=3000
-  "set undoreload=10000
-"endif
-"set backupdir=~/.local/share/nvim/backup " Don't put backups in current dir
 "set backup
 set noswapfile
 
@@ -579,3 +439,7 @@ endif
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
+
+
