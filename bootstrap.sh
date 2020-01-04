@@ -133,12 +133,28 @@ function install_oh_my_zsh() {
 }
 
 function tune_oh_my_zsh() {
-    info "Clonning zsh-completions"
-    git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
-    info "Clonning zsh-syntax-highlighting"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    info "Clonning zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    
+    clone_or_skip_repo 	${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions \
+	   		https://github.com/zsh-users/zsh-completions \
+			"zsh-completions"
+
+    clone_or_skip_repo 	${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting \
+    	    		https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    			"zsh-syntax-highlighting"
+
+    clone_or_skip_repo 	${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions \
+    			https://github.com/zsh-users/zsh-autosuggestions \
+    			"zsh-autosuggestions"
+}
+
+function clone_or_skip_repo() {
+    if ! [[ -e $1 ]]; then
+    	info "Cloning $3"
+        git clone $2 $1
+    	success "$3 was cloned successfully"
+    else
+    	info "$3 already cloned"
+    fi
 }
 
 function set_zshrc() {
