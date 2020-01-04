@@ -148,12 +148,12 @@ function tune_oh_my_zsh() {
 }
 
 function clone_or_skip_repo() {
+    info "Verifying $3 installation"
     if ! [[ -e $1 ]]; then
-    	info "Cloning $3"
         git clone $2 $1
     	success "$3 was cloned successfully"
     else
-    	info "$3 already cloned"
+    	substep "$3 already cloned"
     fi
 }
 
