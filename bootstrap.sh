@@ -123,7 +123,7 @@ function change_shell() {
 
 function install_oh_my_zsh() {
     if test -e $OH_MY_ZSH_DIR; then
-        substep "${OH_MY_ZSH_DIR} already exists"
+        info "${OH_MY_ZSH_DIR} already exists"
     else
         info "Installing Oh My ZSH"
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -162,22 +162,19 @@ function coloredEcho() {
 }
 
 function info() {
-    echo "\n"
+    printf "\n"
     coloredEcho "$1" blue "========>"
 }
 
 function substep() {
-    echo "\n"
     coloredEcho "$1" magenta "===="
 }
 
 function success() {
-    echo "\n"
     coloredEcho "$1" green "========>"
 }
 
 function error() {
-    echo "\n"
     coloredEcho "$1" red "========>"
 }
 
