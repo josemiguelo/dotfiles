@@ -162,18 +162,22 @@ function coloredEcho() {
 }
 
 function info() {
+    echo "\n"
     coloredEcho "$1" blue "========>"
 }
 
 function substep() {
+    echo "\n"
     coloredEcho "$1" magenta "===="
 }
 
 function success() {
+    echo "\n"
     coloredEcho "$1" green "========>"
 }
 
 function error() {
+    echo "\n"
     coloredEcho "$1" red "========>"
 }
 
