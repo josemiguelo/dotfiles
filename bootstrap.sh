@@ -31,7 +31,7 @@ function ask_for_sudo() {
 function install_xcode_command_line_tools() {
     info "Installing Xcode command line tools"
     if softwareupdate --history | grep --silent "Command Line Tools"; then
-        success "Xcode command line tools already exists"
+        substep "Xcode command line tools already exists"
     else
         xcode-select --install
         read -n 1 -s -r -p "Press any key once installation is complete\n"
@@ -64,7 +64,7 @@ function clone_dotfiles_repo() {
 function install_homebrew() {
     info "Installing Homebrew"
     if hash brew 2>/dev/null; then
-        success "Homebrew already exists"
+        substep "Homebrew already exists"
     else
         url=https://raw.githubusercontent.com/Homebrew/install/master/install
         if yes | /usr/bin/ruby -e "$(curl -fsSL ${url})"; then
@@ -98,7 +98,7 @@ function change_shell_to_zsh() {
 function change_shell() {
     info "$1 shell setup"
     if grep --quiet $1 <<< "$SHELL"; then
-        success "$1 shell already exists"
+        substep "$1 shell already exists"
     else
         user=$(whoami)
         substep "Adding $1 executable to /etc/shells"
@@ -123,10 +123,10 @@ function change_shell() {
 }
 
 function install_oh_my_zsh() {
+    info "Verifying Oh My ZSH installation"
     if test -e $OH_MY_ZSH_DIR; then
-        info "${OH_MY_ZSH_DIR} already exists"
+        substep "${OH_MY_ZSH_DIR} already exists"
     else
-        info "Installing Oh My ZSH"
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         success "Installing Oh My ZSH"
     fi
