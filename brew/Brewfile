@@ -6,7 +6,7 @@ tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
 tap "mongodb/brew"
-
+tap "railwaycat/emacsmacport"
 
 
 # BREW PACKAGES
@@ -41,6 +41,7 @@ brew "heroku/brew/heroku"
 brew "imagemagick"
 brew "the_silver_searcher"
 brew "starship"
+brew "gnupg"
 
 
 # CASK PACKAGES
@@ -59,6 +60,8 @@ cask "spotify"
 cask "tunnelblick"
 cask "visual-studio-code"
 cask "cleanmymac"
+cask "itsycal"
+cask "emacs-mac-spacemacs-icon"
 
 
 # STORE APPS

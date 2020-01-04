@@ -14,6 +14,8 @@ main() {
     install_oh_my_zsh
     tune_oh_my_zsh
     set_zshrc
+    configure_asdf
+    configure_spacemacs
 }
 
 function ask_for_sudo() {
@@ -81,6 +83,7 @@ function install_packages_with_brewfile() {
     info "Installing Brewfile packages"
     # brew bundle is automatically installed when run
     brew bundle
+    brew cleanup
     success "Brew installation succeeded"
     cd ..
 }
@@ -133,7 +136,6 @@ function install_oh_my_zsh() {
 }
 
 function tune_oh_my_zsh() {
-    
     clone_or_skip_repo 	${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions \
 	   		https://github.com/zsh-users/zsh-completions \
 			"zsh-completions"
@@ -163,6 +165,85 @@ function set_zshrc() {
     ln -s ~/.mydotfiles/zsh/.zshrc ~/.zshrc
     chmod -R go-w ~/.oh-my-zsh
     success "New .zshrc file set up"
+}
+
+function configure_asdf() {
+    info "Configuring asdf-vm"
+
+    # installation
+    if [ ! -d "$HOME/.asdf" ]; then
+        git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+	substep "asdf has been cloned"
+    else
+	substep "asdf is already installed"
+    fi
+    source "$HOME/.asdf/asdf.sh"
+
+    # adds ruby
+    if hash ruby 2>/dev/null; then
+	substep "ruby already configured"
+    else
+    	install_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
+        install_asdf_language "ruby"
+        gem update --system
+        number_of_cores=$(sysctl -n hw.ncpu)
+        bundle config --global jobs $((number_of_cores - 1))
+	success "ruby has been installed"
+    fi
+
+    # adds nodejs
+    if hash node 2>/dev/null; then
+	substep "nodejs already configured"
+    else
+        install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
+        bash "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
+        install_asdf_language "nodejs"
+	success "nodejs has been installed"
+    fi
+}
+
+function configure_spacemacs() {
+    info "Configuring spacemacs"
+
+    # installing Spacemacs
+    if [ ! -d "$HOME/.asdf" ]; then
+        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+	substep "Spacemacs has been cloned"
+    else 
+	substep "Spacemacs is already installed"
+    fi
+
+    # linking dotfile
+    info "Removing .spacemacs"
+    rm -f ~/.spacemacs
+    info "Linking new .spacemacs"
+    ln -s ~/.mydotfiles/emacs/.spacemacs ~/.spacemacs
+    success "Spacemacs all set up"
+}
+
+function install_asdf_language() {
+    local language="$1"
+    local version
+    version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
+
+    if ! asdf list "$language" | grep -Fq "$version"; then
+        asdf install "$language" "$version"
+        asdf global "$language" "$version"
+        substep "asdf language $name has been installed"
+    fi
+}
+
+function install_asdf_plugin() {
+    local name="$1"
+    local url="$2"
+
+    if ! asdf plugin-list | grep -Fq "$name"; then
+        asdf plugin-add "$name" "$url"
+        substep "asdf plugin $name has been installed"
+    else
+        asdf plugin-update "$name"
+        substep "asdf plugin $name has been updated"
+    fi
 }
 
 function coloredEcho() {
