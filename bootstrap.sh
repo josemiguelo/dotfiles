@@ -12,6 +12,7 @@ main() {
     install_packages_with_brewfile
     change_shell_to_zsh
     install_oh_my_zsh
+    tune_oh_my_zsh
     set_zshrc
 }
 
@@ -129,6 +130,11 @@ function install_oh_my_zsh() {
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         success "Installing Oh My ZSH"
     fi
+}
+
+function tune_oh_my_zsh() {
+    git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 }
 
 function set_zshrc() {

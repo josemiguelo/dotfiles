@@ -4,7 +4,8 @@
 
 export ZSH="/Users/josemiguel/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-plugins=(git rails ruby bundler)
+plugins=(git rails ruby bundler zsh-completions zsh-syntax-highlighting)
+autoload -U compinit && compinit
 source $ZSH/oh-my-zsh.sh
 
 
