@@ -12,6 +12,7 @@ main() {
     install_packages_with_brewfile
     change_shell_to_zsh
     install_oh_my_zsh
+    set_zshrc
 }
 
 function ask_for_sudo() {
@@ -75,15 +76,21 @@ function install_homebrew() {
 }
 
 function install_packages_with_brewfile() {
+    cd ./brew
     info "Installing Brewfile packages"
-    brew bundle # brew bundle is automatically installed when run
+    # brew bundle is automatically installed when run
+    brew bundle
     success "Brew installation succeeded"
+    cd ..
 }
 
 
 function change_shell_to_zsh() {
     change_shell "zsh" "/bin/zsh"
 }
+
+# MacOS Catalina comes with zsh bundled by default.
+# Maybe this is not necessary
 
 # $1 simple shell name: fish, zsh, bash, etc.
 # $2 shell path
@@ -118,10 +125,18 @@ function install_oh_my_zsh() {
     if test -e $OH_MY_ZSH_DIR; then
         substep "${OH_MY_ZSH_DIR} already exists"
     else
-	info "Installing Oh My ZSH"
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	success "Installing Oh My ZSH"
+        info "Installing Oh My ZSH"
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        success "Installing Oh My ZSH"
     fi
+}
+
+function set_zshrc() {
+    info "Removing .zshrc"
+    rm -f ~/.zshrc
+    ln -s ~/.mydotfiles/zsh/.zshrc ~/.zshrc
+    chmod -R go-w ~/.oh-my-zsh
+    success "New .zshrc file set up"
 }
 
 function coloredEcho() {

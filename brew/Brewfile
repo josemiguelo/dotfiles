@@ -44,7 +44,7 @@ brew "starship"
 
 
 # CASK PACKAGES
-cask "alfred.rb"
+cask "alfred.rb"    # uses a custom formulae
 cask "bartender"
 cask "docker"
 cask "font-fira-mono-for-powerline"
