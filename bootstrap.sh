@@ -162,7 +162,7 @@ function coloredEcho() {
 }
 
 function info() {
-    printf "\n"
+    echo
     coloredEcho "$1" blue "========>"
 }
 
