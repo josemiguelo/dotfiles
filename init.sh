@@ -7,10 +7,11 @@ main() {
     ask_for_sudo
     install_xcode_command_line_tools
     clone_dotfiles_repo
-    #install_homebrew
-    #install_packages_with_brewfile
-    #change_shell_to_zsh
-    #install_oh_my_zsh
+    cd ~/.mydotfiles
+    install_homebrew
+    install_packages_with_brewfile
+    change_shell_to_zsh
+    install_oh_my_zsh
 }
 
 function ask_for_sudo() {
