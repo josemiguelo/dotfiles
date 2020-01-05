@@ -36,17 +36,6 @@ function install_xcode_command_line_tools() {
         substep "Xcode command line tools already exists"
     else
         xcode-select --install > /dev/null 2>&1
-	if [ 0 == $? ]; do
-	    sleep 1
-	    osascript <<EOD
-		tell application "System Events"
-		    tell process "Install Command Line Developer Tools"
-			keystroke return
-			click button "Agree" of window "License Agreement"
-		    end tell
-		end tell
-	    EOD
-	fi
         read -n 1 -s -r -p "Press any key once installation is complete\n"
 
         if softwareupdate --history | grep --silent "Command Line Tools"; then
