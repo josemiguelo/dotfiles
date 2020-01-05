@@ -173,32 +173,32 @@ function configure_asdf() {
     # installation
     if [ ! -d "$HOME/.asdf" ]; then
         git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-	substep "asdf has been cloned"
+        substep "asdf has been cloned"
     else
-	substep "asdf is already installed"
+        substep "asdf is already installed"
     fi
     source "$HOME/.asdf/asdf.sh"
 
     # adds ruby
     if hash ruby 2>/dev/null; then
-	substep "ruby already configured"
+        substep "ruby already configured"
     else
-    	install_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
+        install_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
         install_asdf_language "ruby"
         gem update --system
         number_of_cores=$(sysctl -n hw.ncpu)
         bundle config --global jobs $((number_of_cores - 1))
-	success "ruby has been installed"
+        success "ruby has been installed"
     fi
 
     # adds nodejs
     if hash node 2>/dev/null; then
-	substep "nodejs already configured"
+        substep "nodejs already configured"
     else
         install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
         bash "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
         install_asdf_language "nodejs"
-	success "nodejs has been installed"
+        success "nodejs has been installed"
     fi
 }
 
@@ -208,9 +208,9 @@ function configure_spacemacs() {
     # installing Spacemacs
     if [ ! -d "$HOME/.asdf" ]; then
         git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-	      substep "Spacemacs has been cloned"
+        substep "Spacemacs has been cloned"
     else
-	      substep "Spacemacs is already installed"
+        substep "Spacemacs is already installed"
     fi
 
     # setting up tabbar

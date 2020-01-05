@@ -42,13 +42,13 @@ brew "imagemagick"
 brew "the_silver_searcher"
 brew "starship"
 brew "gnupg"
+brew "aspell"
 
 
 # CASK PACKAGES
 cask "alfred.rb"    # uses a custom formulae
 cask "bartender"
 cask "docker"
-cask "font-fira-mono-for-powerline"
 cask "foxitreader"
 cask "gimp"
 cask "google-chrome"
@@ -62,6 +62,10 @@ cask "visual-studio-code"
 cask "cleanmymac"
 cask "itsycal"
 cask "emacs-mac-spacemacs-icon"
+cask "font-fira-code"
+cask "font-fira-mono"
+cask "font-fira-sans"
+cask "font-fira-mono-for-powerline"
 
 
 # STORE APPS
