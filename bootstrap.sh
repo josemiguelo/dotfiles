@@ -208,15 +208,22 @@ function configure_spacemacs() {
     # installing Spacemacs
     if [ ! -d "$HOME/.asdf" ]; then
         git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-	substep "Spacemacs has been cloned"
-    else 
-	substep "Spacemacs is already installed"
+	      substep "Spacemacs has been cloned"
+    else
+	      substep "Spacemacs is already installed"
+    fi
+
+    # setting up tabbar
+    TABBAR_DIR=~/.emacs.d/private/tabbar
+    if [ ! -d "$TABBAR_DIR" ]; then
+        git clone https://github.com/kdoomsday/tabbar-layer "$TABBAR_DIR"
+        substep "tabbar has been cloned"
     fi
 
     # linking dotfile
-    info "Removing .spacemacs"
+    substep "Removing .spacemacs"
     rm -f ~/.spacemacs
-    info "Linking new .spacemacs"
+    substep "Linking new .spacemacs"
     ln -s ~/.mydotfiles/emacs/.spacemacs ~/.spacemacs
     success "Spacemacs all set up"
 }
