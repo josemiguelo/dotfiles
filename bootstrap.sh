@@ -180,7 +180,7 @@ function configure_asdf() {
     source "$HOME/.asdf/asdf.sh"
 
     # adds ruby
-    if hash ruby 2>/dev/null; then
+    if asdf list ruby 2>/dev/null; then
         substep "ruby already configured"
     else
         install_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
@@ -192,7 +192,7 @@ function configure_asdf() {
     fi
 
     # adds nodejs
-    if hash node 2>/dev/null; then
+    if asdf list nodejs 2>/dev/null; then
         substep "nodejs already configured"
     else
         install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
