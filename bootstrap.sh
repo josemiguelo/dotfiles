@@ -180,7 +180,7 @@ function configure_asdf() {
     source "$HOME/.asdf/asdf.sh"
 
     # adds ruby
-    if asdf list ruby 2>/dev/null; then
+    if asdf list ruby > /dev/null 2>&1; then
         substep "ruby already configured"
     else
         install_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
@@ -192,7 +192,7 @@ function configure_asdf() {
     fi
 
     # adds nodejs
-    if asdf list nodejs 2>/dev/null; then
+    if asdf list nodejs > /dev/null 2>&1; then
         substep "nodejs already configured"
     else
         install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
@@ -200,6 +200,15 @@ function configure_asdf() {
         install_asdf_language "nodejs"
         success "nodejs has been installed"
     fi
+
+    install_gems
+}
+
+function install_gems() {
+    info "Installing gems"
+    gem install rails
+    gem install rubocop
+    gem install bundler
 }
 
 function configure_spacemacs() {
