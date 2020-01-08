@@ -66,9 +66,15 @@ cask "font-fira-code"
 cask "font-fira-mono"
 cask "font-fira-sans"
 cask "font-fira-mono-for-powerline"
+cask "hammerspoon"
+cask "forklift"
+cask "contexts"
+cask "dozer"
+cask "captin"
+cask "spotmenu"
 
 
 # STORE APPS
 mas "Skitch", id: 425955336
-
+mas "BetterSnapTool", id: 417375580
 
