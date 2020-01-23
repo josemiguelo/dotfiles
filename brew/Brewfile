@@ -72,6 +72,7 @@ cask "contexts"
 cask "dozer"
 cask "captin"
 cask "spotmenu"
+cask "cheatsheet"
 
 
 # STORE APPS
